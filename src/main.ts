@@ -3,6 +3,8 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { ConnexionVigileComponent } from './app/connexion-vigile/connexion-vigile.component';
 import { DashboardVigileComponent } from './app/dashboard-vigile/dashboard-vigile.component';
+import { DashboardAdminComponent } from './app/dashboard-admin/dashboard-admin.component';
+
 import { PointageComponent } from './app/liste-vigile/liste-vigile.component'; // Importer le composant
 import { provideHttpClient } from '@angular/common/http';  // Importation pour HttpClient
 
@@ -17,6 +19,10 @@ bootstrapApplication(AppComponent, {
       { path: 'login', component: ConnexionVigileComponent }, // Route vers ConnexionVigile
       { path: 'dashboard-vigile', component: DashboardVigileComponent }, // Route vers DashboardVigile
       { path: 'liste-vigile', component: PointageComponent }, // Route vers ListeVigile
+      { path: 'dashboard-admin', component: DashboardAdminComponent }, // Route vers DashboardVigile
+
+      
+
 
       // Ajoutez d'autres routes ici si nécessaire
     ], withComponentInputBinding()),
