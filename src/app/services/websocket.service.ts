@@ -23,6 +23,12 @@ export class WebSocketService {
       console.log('Statut de pointage:', status);
       this.message$.next(status); // Transmet le statut de pointage
     });
+
+    // Écoute des messages "control-door" du serveur
+    this.socket.on('control-door', (data: any) => {
+      console.log('Commande de contrôle de la porte reçue:', data);
+      this.message$.next(data); // Transmet la commande de contrôle de la porte
+    });
   }
 
   // Méthode pour envoyer un message au serveur WebSocket

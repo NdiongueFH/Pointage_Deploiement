@@ -9,6 +9,7 @@ import { UserService } from '../user.service';  // Import du service pour récup
 @Component({
   selector: 'app-pointage',
   imports: [CommonModule],
+  standalone: true,
   templateUrl: './dashboard-vigile.component.html',
   styleUrls: ['./dashboard-vigile.component.css']
 })
@@ -19,9 +20,9 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
     nom: 'en attente...',
     prenom: 'en attente...',
     statut: 'en attente...',
-    premierPointage: 'en attente...',
-    dernierPointage: 'en attente...',
-    photo: 'inconnu.png'  // Ajouter l'URL de la photo
+    photo: 'inconnu.png',  // Ajouter l'URL de la photo
+    premierPointage: { date: '', heure: '', status: '' },
+    dernierPointage: { date: '', heure: '', status: '' }
   };
 
   // Ajout des informations du vigile connecté
@@ -46,14 +47,11 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
     // S'abonner aux messages WebSocket
     this.messageSubscription = this.websocketService.message$.subscribe((data: any) => {
       switch (data.type) {
-        case 'Check-In':
-          this.handleCheckIn(data);
-          break;
-        case 'Check-Out':
-          this.handleCheckOut(data);
-          break;
         case 'card-data':
           this.handleCardData(data);
+          break;
+        case 'control-door':
+          this.handleControlDoor(data);
           break;
         default:
           console.warn('Événement WebSocket non géré:', data);
@@ -102,37 +100,19 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
     // Exemple: this.router.navigate(['/change-password']);
   }
 
-  // Gestion du Check-In
-  private handleCheckIn(data: any) {
-    console.log('Données Check-In reçues:', data); // Log pour débogage
-    const timestamp = new Date(data.timestamp);
-    this.employeeData.premierPointage = this.formatDate(timestamp);
-    this.cdr.detectChanges(); // Force la détection de changement
-    console.log('Check-In traité:', this.employeeData.premierPointage);
-  }
-
-  // Gestion du Check-Out
-  private handleCheckOut(data: any) {
-    console.log('Données Check-Out reçues:', data); // Log pour débogage
-    const timestamp = new Date(data.timestamp);
-    this.employeeData.dernierPointage = this.formatDate(timestamp);
-    this.cdr.detectChanges(); // Force la détection de changement
-    console.log('Check-Out traité:', this.employeeData.dernierPointage);
-  }
-
   private handleCardData(data: any) {
     if (data.found) {
       // Mise à jour des informations utilisateur
       if (data.userData.statut === 'Bloque') {
         // Si l'utilisateur est bloqué, on affiche une image "bloque" et on masque les autres informations
         this.employeeData = {
-          matricule: 'Utilisateur bloqué',
+          matricule: '',
           nom: '',
           prenom: '',
           statut: 'Bloqué',
-          premierPointage: '',
-          dernierPointage: '',
-          photo: 'bloque.png'  // Image spécifique pour un utilisateur bloqué
+          photo: 'bloque.png',  // Image spécifique pour un utilisateur bloqué
+          premierPointage: { date: '', heure: '', status: '' },
+          dernierPointage: { date: '', heure: '', status: '' }
         };
       } else {
         // Sinon, on affiche les informations normales
@@ -142,10 +122,12 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
           nom: data.userData.nom || 'en attente...',
           prenom: data.userData.prenom || 'en attente...',
           statut: data.userData.statut || 'en attente...',
-          photo: data.userData.photo || 'inconnu.png'
+          photo: data.userData.photo || 'inconnu.png',
+          premierPointage: data.userData.premierPointage || { date: '', heure: '', status: '' },
+          dernierPointage: data.userData.dernierPointage || { date: '', heure: '', status: '' }
         };
       }
-  
+
       // Réinitialiser après 10 secondes
       setTimeout(() => this.resetEmployeeData(), 10000);
     } else {
@@ -157,12 +139,20 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
         nom: 'Non trouvé',
         prenom: 'Non trouvé',
         statut: 'Non trouvé',
-        photo: 'Alerte.png'
+        photo: 'Alerte.png',
+        premierPointage: { date: '', heure: '', status: '' },
+        dernierPointage: { date: '', heure: '', status: '' }
       };
-  
+
       // Réinitialiser après 10 secondes
       setTimeout(() => this.resetEmployeeData(), 10000);
     }
+  }
+
+  // Gestion des commandes de contrôle de la porte
+  private handleControlDoor(data: any) {
+    console.log('Commande de contrôle de la porte reçue:', data);
+    // Vous pouvez ajouter des actions supplémentaires ici si nécessaire
   }
 
   // Réinitialiser les données utilisateur
@@ -174,20 +164,10 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
       nom: 'en attente...',
       prenom: 'en attente...',
       statut: 'en attente...',
-      photo: 'inconnu.png'
+      photo: 'inconnu.png',
+      premierPointage: { date: '', heure: '', status: '' },
+      dernierPointage: { date: '', heure: '', status: '' }
     };
-  }
-
-  // Méthode pour formater la date (ex: "12/01/2025 14:30")
-  private formatDate(date: Date): string {
-    const options: Intl.DateTimeFormatOptions = {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    };
-    return date.toLocaleString('fr-FR', options);  // Formate selon les paramètres locaux (fr-FR)
   }
 
   // Méthodes pour contrôler la porte
@@ -210,8 +190,8 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
   // Déconnexion
   deconnexion() {
     console.log('Déconnexion');
-    this.http.post('http://localhost:8000/api/logout', {}, { 
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } 
+    this.http.post('http://localhost:8000/api/logout', {}, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
     }).subscribe(
       (response: any) => {
         console.log('Déconnexion réussie', response);
@@ -222,5 +202,38 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
         console.error('Erreur lors de la déconnexion', error);
       }
     );
+  }
+
+  // Fonction pour formater les dates en 'dd/mm/yyyy'
+  formatDate(date: string): string {
+    const d = new Date(date);
+    const day = d.getDate().toString().padStart(2, '0'); // Ajoute un zéro devant le jour si nécessaire
+    const month = (d.getMonth() + 1).toString().padStart(2, '0'); // Mois de 1 à 12
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  // Méthode pour approuver le pointage
+  approvePointage(type: string) {
+    console.log(`Approuver le pointage ${type}`);
+    if (type === 'premier') {
+      this.employeeData.premierPointage.status = 'approved';
+    } else if (type === 'dernier') {
+      this.employeeData.dernierPointage.status = 'approved';
+    }
+    // Logique pour approuver le pointage
+    // Vous pouvez envoyer une requête au serveur pour mettre à jour le statut du pointage
+  }
+
+  // Méthode pour rejeter le pointage
+  rejectPointage(type: string) {
+    console.log(`Rejeter le pointage ${type}`);
+    if (type === 'premier') {
+      this.employeeData.premierPointage.status = 'rejected';
+    } else if (type === 'dernier') {
+      this.employeeData.dernierPointage.status = 'rejected';
+    }
+    // Logique pour rejeter le pointage
+    // Vous pouvez envoyer une requête au serveur pour mettre à jour le statut du pointage
   }
 }

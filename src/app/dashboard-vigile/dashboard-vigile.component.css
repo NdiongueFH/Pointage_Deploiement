@@ -293,34 +293,89 @@
 
 .modal {
     display: block;
+    /* Afficher le modal */
     position: fixed;
-    bottom: 0;
+    /* Position fixe */
+    z-index: 1;
+    /* S'assurer que le modal est au-dessus de tout */
     left: 0;
+    top: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    z-index: 999;
+    /* Largeur complète */
+    height: 100%;
+    /* Hauteur complète */
+    overflow: auto;
+    /* Permettre le défilement si nécessaire */
+    background-color: rgb(0, 0, 0);
+    /* Fond noir */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Fond noir avec opacité */
 }
 
 .modal-content {
-    background-color: white;
+    background-color: #fefefe;
+    margin: 15% auto;
+    /* 15% du haut et centré */
     padding: 20px;
-    border-radius: 10px;
-    position: relative;
-    max-width: 400px;
-    margin: 0 auto;
+    border: 1px solid #888;
+    width: 80%;
+    /* Largeur du contenu */
 }
 
 .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
     cursor: pointer;
 }
 
-a {
-    color: blue;
-    text-decoration: underline;
+
+/* Styles pour le bouton Approuver */
+
+.btn-approve {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
     cursor: pointer;
+    border-radius: 4px;
+}
+
+
+/* Styles pour le bouton Rejeter */
+
+.btn-reject {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+/* Styles pour le bloc approuvé */
+
+.approved {
+    background-color: lightgreen;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+/* Styles pour le bloc rejeté */
+
+.rejected {
+    background-color: lightcoral;
+    padding: 10px;
+    border-radius: 5px;
 }

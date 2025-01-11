@@ -5,7 +5,7 @@ import { ConnexionVigileComponent } from './app/connexion-vigile/connexion-vigil
 import { DashboardVigileComponent } from './app/dashboard-vigile/dashboard-vigile.component';
 import { DashboardAdminComponent } from './app/dashboard-admin/dashboard-admin.component';
 
-import { PointageComponent } from './app/liste-vigile/liste-vigile.component'; // Importer le composant
+import { ListeVigileComponent } from './app/liste-vigile/liste-vigile.component'; // Importer le composant ListeVigile
 import { provideHttpClient } from '@angular/common/http';  // Importation pour HttpClient
 
 bootstrapApplication(AppComponent, {
@@ -18,13 +18,8 @@ bootstrapApplication(AppComponent, {
       { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirection par défaut
       { path: 'login', component: ConnexionVigileComponent }, // Route vers ConnexionVigile
       { path: 'dashboard-vigile', component: DashboardVigileComponent }, // Route vers DashboardVigile
-      { path: 'liste-vigile', component: PointageComponent }, // Route vers ListeVigile
-      { path: 'dashboard-admin', component: DashboardAdminComponent }, // Route vers DashboardVigile
-
-      
-
-
-      // Ajoutez d'autres routes ici si nécessaire
+      { path: 'liste-vigile', component: ListeVigileComponent }, // Route vers ListeVigile
+      { path: 'dashboard-admin', component: DashboardAdminComponent }, // Route vers DashboardAdmin
     ], withComponentInputBinding()),
   ],
 }).catch(err => console.error(err));

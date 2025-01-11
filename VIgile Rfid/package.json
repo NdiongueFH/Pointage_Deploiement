@@ -8,5 +8,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@serialport/parser-readline": "^13.0.0",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.3",
+    "serialport": "^13.0.0",
+    "socket.io": "^4.8.1"
+  }
 }

@@ -1,11 +1,9 @@
-import express from 'express';
-import http from 'http';
-import { Server as socketIo } from 'socket.io';
-import { SerialPort } from 'serialport';
-import { ReadlineParser } from '@serialport/parser-readline';
-import mongoose from 'mongoose';
-import User from './models/User.js';
-import ControleAcces from './models/ControleAcces.js';
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io'); // Updated import
+const { SerialPort } = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline');
+const mongoose = require('mongoose');
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/sunupointage')
@@ -19,7 +17,7 @@ const app = express();
 const server = http.createServer(app);
 
 // Configuration CORS pour Socket.IO
-const io = new socketIo(server, {
+const io = new Server(server, {
     cors: {
         origin: "http://localhost:4200",
         methods: ["GET", "POST"],
@@ -29,15 +27,13 @@ const io = new socketIo(server, {
 
 // Serial Port configuration
 const port = new SerialPort({
-    path: '/dev/ttyACM0',
+    path: '/dev/ttyACM',
     baudRate: 9600,
     autoOpen: false
 });
 
 // Create parser instance using ReadlineParser
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
-
-
 
 // Gestion des erreurs du port
 port.on('error', (err) => {
@@ -240,6 +236,6 @@ app.get('/controle-acces/pointages/:cardID', async(req, res) => {
 });
 
 // Start server
-server.listen(3000, () => {
-    console.log('WebSocket server listening on port 3000');
+server.listen(3001, () => {
+    console.log('WebSocket server listening on port 3001');
 });

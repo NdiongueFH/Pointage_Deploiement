@@ -70,13 +70,13 @@ export class ConnexionVigileComponent implements OnInit, OnDestroy {
   }
 
   loginWithCardID(cardID: string): void {
-    console.log('Essai de connexion avec cardID:', cardID);
+    // console.log('Essai de connexion avec cardID:', cardID);
     this.loginService.loginWithCardID(cardID).subscribe(
       (response) => {
         if (response.role === 'admin') {
           localStorage.setItem('token', response.token);
           this.router.navigate(['/dashboard-admin']);
-          console.log('Utilisateur admin connecté avec cardID');
+          // console.log('Utilisateur admin connecté avec cardID');
         } else {
           this.errorMessage = 'Vous n\'avez pas accès avec cette carte';
         }
@@ -97,7 +97,7 @@ export class ConnexionVigileComponent implements OnInit, OnDestroy {
         if (response.role === 'admin') {
           localStorage.setItem('token', response.token);
           this.router.navigate(['/dashboard-admin']);
-          console.log('Utilisateur admin connecté avec email et mot de passe');
+          // console.log('Utilisateur admin connecté avec email et mot de passe');
         } else if (response.role === 'vigile') {
           localStorage.setItem('token', response.token);
           this.router.navigate(['/dashboard-vigile']);
