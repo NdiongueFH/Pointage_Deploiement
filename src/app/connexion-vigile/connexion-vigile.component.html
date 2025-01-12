@@ -1,4 +1,5 @@
 <!-- src/app/connexion-vigile/connexion-vigile.component.html -->
+
 <div class="login-wrapper">
     <div class="login-card">
         <div class="logo">
@@ -19,8 +20,7 @@
                 <div class="password-container">
                     <input [type]="showPassword ? 'text' : 'password'" id="password" name="password" [(ngModel)]="loginData.password" required placeholder="Entrer votre mot de passe" (ngModelChange)="onPasswordChange()" />
                     <button type="button" (click)="togglePasswordVisibility()" class="eye-icon">
-              <i *ngIf="showPassword" class="fas fa-eye-slash"></i>
-              <i *ngIf="!showPassword" class="fas fa-eye"></i>
+              
             </button>
                 </div>
                 <div *ngIf="showPasswordError" class="error-message">
@@ -38,7 +38,7 @@
           Login
         </button>
         </form>
-        <p class="rfid-link" (click)="onCardIDClick()">Se connecter avec sa carte RFID</p>
+        <!-- <p class="rfid-link" (click)="onCardIDClick()">Se connecter avec sa carte RFID</p> -->
     </div>
 </div>
 

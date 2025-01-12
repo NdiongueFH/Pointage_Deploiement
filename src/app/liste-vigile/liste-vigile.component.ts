@@ -71,6 +71,8 @@ export class ListeVigileComponent implements OnInit, OnDestroy {
     // Redirection vers le dashboard-vigile
     this.router.navigate(['/dashboard-vigile']);
   }
+  // 
+  // 
   // Fonction pour formater les dates en 'dd/mm/yyyy'
   formatDate(date: string): string {
     const d = new Date(date);

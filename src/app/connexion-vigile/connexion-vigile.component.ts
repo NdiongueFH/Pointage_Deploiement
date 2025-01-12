@@ -120,9 +120,11 @@ export class ConnexionVigileComponent implements OnInit, OnDestroy {
     this.router.navigate(['/forgot-password']);
   }
 
+ 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
+ 
 
   onEmailChange() {
     this.showEmailError = this.loginData.email.length > 0 && !this.loginData.email.includes('@');

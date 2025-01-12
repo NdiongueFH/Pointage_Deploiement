@@ -119,18 +119,6 @@ input:focus {
 
 /* Wrapper pour le champ mot de passe */
 
-.password-container {
-    position: relative;
-}
-
-.eye-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-
 
 /* Lien "Mot de passe oublié" */
 
@@ -159,20 +147,6 @@ input:focus {
     color: red;
     font-size: 0.9rem;
     margin-top: 5px;
-}
-
-.password-container {
-    position: relative;
-}
-
-.eye-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
 }
 
 .error-message {
@@ -221,13 +195,6 @@ button.login-button:hover {
     color: red;
     font-size: 14px;
     margin-top: 5px;
-}
-
-.eye-icon {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    margin-left: 100px;
 }
 
 .login-button:disabled {
@@ -301,4 +268,28 @@ button:hover {
 button:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.password-container {
+    position: relative;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+}
+
+.eye-icon:focus {
+    outline: none;
+}
+
+.eye-icon i {
+    font-size: 1.5rem;
 }

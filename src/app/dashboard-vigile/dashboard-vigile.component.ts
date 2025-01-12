@@ -110,7 +110,7 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
           nom: '',
           prenom: '',
           statut: 'Bloqué',
-          photo: 'bloque.png',  // Image spécifique pour un utilisateur bloqué
+          photo: 'bloque.jpg',  // Image spécifique pour un utilisateur bloqué
           premierPointage: { date: '', heure: '', status: '' },
           dernierPointage: { date: '', heure: '', status: '' }
         };
