@@ -59,7 +59,7 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
     });
 
     // Récupérer les informations du vigile connecté
-    this.getVigileInfo();
+    // this.getVigileInfo();
   }
 
   ngOnDestroy() {
@@ -70,18 +70,18 @@ export class DashboardVigileComponent implements OnInit, OnDestroy {
   }
 
   // Méthode pour récupérer les informations du vigile connecté
-  getVigileInfo() {
-    this.userService.getVigileInfo().subscribe((data: any) => {
-      if (data) {
-        this.vigileData = {
-          nom: data.nom,
-          prenom: data.prenom,
-          email: data.email
-        };
-        console.log('Informations du vigile connecté:', this.vigileData);
-      }
-    });
-  }
+  // getVigileInfo() {
+  //   this.userService.getVigileInfo().subscribe((data: any) => {
+  //     if (data) {
+  //       this.vigileData = {
+  //         nom: data.nom,
+  //         prenom: data.prenom,
+  //         email: data.email
+  //       };
+  //       console.log('Informations du vigile connecté:', this.vigileData);
+  //     }
+  //   });
+  // }
 
   // Fonction pour afficher le modal avec les informations du vigile
   showVigileInfoModal() {

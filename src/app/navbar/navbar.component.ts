@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http'; // Import du service HttpClient
+
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink],
@@ -9,7 +10,14 @@ import { HttpClient } from '@angular/common/http'; // Import du service HttpClie
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  constructor(private router: Router, private http: HttpClient) {}
+  user: any; // Pour stocker les informations de l'utilisateur connecté
+
+  constructor(private router: Router, private http: HttpClient) {
+    // Récupérez les informations de l'utilisateur connecté depuis le localStorage
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
+  }
+
   deconnexion() {
     console.log('Déconnexion');
 
@@ -26,10 +34,11 @@ export class NavbarComponent {
         (response: any) => {
           console.log('Déconnexion réussie', response);
 
-          // Supprimer le token localement
+          // Supprimez le token et les informations utilisateur
           localStorage.removeItem('token');
+          localStorage.removeItem('user');
 
-          // Rediriger vers la page de connexion
+          // Redirigez vers la page de connexion
           this.router.navigate(['/login']);
         },
         (error) => {
