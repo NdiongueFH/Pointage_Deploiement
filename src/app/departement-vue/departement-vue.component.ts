@@ -25,8 +25,8 @@ export class DepartementVueComponent implements OnInit {
     'Téléphone',
     'Email',
     'Carte',
-    'Actions',
     '',
+    'Actions',
     '',
     '',
   ];

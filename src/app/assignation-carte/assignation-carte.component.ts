@@ -16,6 +16,7 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 // Importation des modules et services de routage d'Angular
 
 import { UserService, User } from '../user.service';
+import { NavbarComponent } from '../navbar/navbar.component';
 // Importation du service UserService et de l'interface User pour gérer les utilisateurs
 
 // Définir l'interface CardData
@@ -33,7 +34,7 @@ interface CardData {
 @Component({
   selector: 'app-assignation-carte',
   // Sélecteur du composant
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NavbarComponent],
   // Modules importés pour ce composant
   templateUrl: './assignation-carte.component.html',
   // URL du template HTML
@@ -54,7 +55,7 @@ export class AssignationCarteComponent implements OnInit {
     // Initialisation du matricule
     cardID: '',
     // Initialisation de l'ID de la carte
-    assignmentDate: ''
+    assignmentDate: '',
     // Initialisation de la date d'assignation
   };
 
@@ -68,18 +69,19 @@ export class AssignationCarteComponent implements OnInit {
     // Injection du service Router pour la navigation
     private route: ActivatedRoute,
     // Injection du service ActivatedRoute pour accéder aux paramètres de route
-    private userService: UserService
-    // Injection du service UserService pour gérer les utilisateurs
+    private userService: UserService // Injection du service UserService pour gérer les utilisateurs
   ) {}
 
   ngOnInit() {
+    this.departementId = this.route.snapshot.paramMap.get('id'); // 'id' au lieu de 'departementId'
+    console.log('ID du département:', this.departementId); // Vérifiez la valeur dans la console
     // Méthode appelée lors de l'initialisation du composant
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       // Abonnement aux paramètres de route
       const userId = params['id'];
       // Récupération de l'ID de l'utilisateur à partir des paramètres de route
       this.userService.getUserById(userId).subscribe(
-        user => {
+        (user) => {
           // Récupération des informations de l'utilisateur
           this.cardData = {
             fullName: `${user.nom} ${user.prenom}`,
@@ -88,13 +90,16 @@ export class AssignationCarteComponent implements OnInit {
             // Récupération du matricule de l'utilisateur
             cardID: user.cardID || '',
             // Récupération de l'ID de la carte de l'utilisateur
-            assignmentDate: new Date().toISOString().split('T')[0]
+            assignmentDate: new Date().toISOString().split('T')[0],
             // Récupération de la date actuelle au format ISO
           };
         },
-        error => {
+        (error) => {
           // Gestion des erreurs
-          console.error('Erreur lors de la récupération des informations de l\'utilisateur', error);
+          console.error(
+            "Erreur lors de la récupération des informations de l'utilisateur",
+            error
+          );
         }
       );
     });
@@ -113,7 +118,7 @@ export class AssignationCarteComponent implements OnInit {
     // Méthode pour scanner le RFID
     this.isScanning = true;
     // Indique que le scanning est en cours
-    this.rfidService.listen().subscribe(data => {
+    this.rfidService.listen().subscribe((data) => {
       // Abonnement aux événements RFID
       this.cardData.cardID = data.cardId;
       // Mise à jour de l'ID de la carte
@@ -124,7 +129,7 @@ export class AssignationCarteComponent implements OnInit {
 
   cancelAssignment() {
     // Méthode pour annuler l'assignation
-    this.router.navigate(['/dashboard-admin']);
+    this.router.navigate(['/departement', this.departementId]);
     // Redirection vers le tableau de bord admin
   }
 
@@ -175,20 +180,22 @@ export class AssignationCarteComponent implements OnInit {
     console.log('Assignment confirmed');
     // Log de confirmation
     // Envoyer la requête de mise à jour de l'utilisateur avec la carte UID
-    this.userService.addCardId(this.route.snapshot.params['id'], this.cardData.cardID).subscribe(
-      response => {
-        // Gestion de la réponse
-        console.log('Carte assignée avec succès:', response);
-        // Log de succès
-        this.closeConfirmationModal();
-        // Fermeture de la modal de confirmation
-        this.openSuccessModal();
-        // Ouverture de la modal de succès
-      },
-      error => {
-        // Gestion des erreurs
-        console.error('Erreur lors de l\'assignation de la carte:', error);
-      }
-    );
+    this.userService
+      .addCardId(this.route.snapshot.params['id'], this.cardData.cardID)
+      .subscribe(
+        (response) => {
+          // Gestion de la réponse
+          console.log('Carte assignée avec succès:', response);
+          // Log de succès
+          this.closeConfirmationModal();
+          // Fermeture de la modal de confirmation
+          this.openSuccessModal();
+          // Ouverture de la modal de succès
+        },
+        (error) => {
+          // Gestion des erreurs
+          console.error("Erreur lors de l'assignation de la carte:", error);
+        }
+      );
   }
 }
