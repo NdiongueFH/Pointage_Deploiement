@@ -431,7 +431,7 @@ export class DepartementVueComponent implements OnInit {
     ]);
   }
 
-  // Rediriger vers le formulaire d'édition d'un utilisateur
+  // Rediriger vers le formulaire d'édition d'un utilisateur facilement
   redirectToEditUser(userId: string): void {
     this.router.navigate([
       '/departement',
