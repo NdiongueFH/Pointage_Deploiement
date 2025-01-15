@@ -5,10 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardAdminService {
-  private apiUrl = 'http://127.0.0.1:8000/api'; // Remplacez par l'URL de votre API
+  private apiUrl = 'http://localhost:8000/api'; // Remplacez par l'URL de votre API
 
   constructor(private http: HttpClient) {}
 
@@ -21,11 +21,11 @@ export class DashboardAdminService {
   }
 
   getCountEmployes(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/users/count?role=employe`);
+    return this.http.get<number>(`${this.apiUrl}/users/count/employe`);
   }
 
   getCountApprenants(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/users/count?role=apprenant`);
+    return this.http.get<number>(`${this.apiUrl}/users/count/apprenant`);
   }
 
   getCountAllUsers(): Observable<any> {
@@ -39,8 +39,6 @@ export class DashboardAdminService {
     }
     return this.http.get<any>(url);
   }
-
-  
 
   getUserHistorique(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/users/historique`);
