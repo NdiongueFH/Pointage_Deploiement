@@ -121,7 +121,7 @@ export class UserService {
       axios
         .post(`${this.apiUrl}/cohortes/${cohorteId}/ajout/users`, userData)
         .then((response) => {
-           observer.next(response.data);
+          observer.next(response.data);
           observer.complete();
         })
         .catch((error) => {
@@ -283,5 +283,30 @@ export class UserService {
           this.handleError(error).subscribe(observer);
         });
     });
+  }
+
+  // Récupérer les pointages d'un utilisateur pour une plage de dates
+  getEmployeePointages(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const url = `${this.apiUrl}/controle-acces/user/${userId}/pointages?startDate=${startDate}&endDate=${endDate}`;
+    return this.http.get(url);
+  }
+
+  // Enregistrer une absence
+  saveAbsence(absenceData: any): Observable<any> {
+    const url = `${this.apiUrl}/controle-acces/absence`;
+    return this.http.post(url, absenceData);
+  }
+  // Récupérer les absences d'un utilisateur pour une plage de dates
+  getEmployeeAbsences(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const url = `${this.apiUrl}/controle-acces/user/${userId}/absences?startDate=${startDate}&endDate=${endDate}`;
+    return this.http.get(url);
   }
 }

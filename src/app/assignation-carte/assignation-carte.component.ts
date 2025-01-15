@@ -69,12 +69,11 @@ export class AssignationCarteComponent implements OnInit {
     // Injection du service Router pour la navigation
     private route: ActivatedRoute,
     // Injection du service ActivatedRoute pour accéder aux paramètres de route
-    private userService: UserService // Injection du service UserService pour gérer les utilisateurs
-  ) {}
+    private userService: UserService
+  ) // Injection du service UserService pour gérer les utilisateurs
+  {}
 
   ngOnInit() {
-    this.departementId = this.route.snapshot.paramMap.get('id'); // 'id' au lieu de 'departementId'
-    console.log('ID du département:', this.departementId); // Vérifiez la valeur dans la console
     // Méthode appelée lors de l'initialisation du composant
     this.route.params.subscribe((params) => {
       // Abonnement aux paramètres de route
@@ -129,7 +128,7 @@ export class AssignationCarteComponent implements OnInit {
 
   cancelAssignment() {
     // Méthode pour annuler l'assignation
-    this.router.navigate(['/departement', this.departementId]);
+    this.router.navigate(['/dashboard-admin']);
     // Redirection vers le tableau de bord admin
   }
 
