@@ -69,9 +69,8 @@ export class AssignationCarteComponent implements OnInit {
     // Injection du service Router pour la navigation
     private route: ActivatedRoute,
     // Injection du service ActivatedRoute pour accéder aux paramètres de route
-    private userService: UserService
-  ) // Injection du service UserService pour gérer les utilisateurs
-  {}
+    private userService: UserService // Injection du service UserService pour gérer les utilisateurs
+  ) {}
 
   ngOnInit() {
     // Méthode appelée lors de l'initialisation du composant
@@ -79,7 +78,7 @@ export class AssignationCarteComponent implements OnInit {
       // Abonnement aux paramètres de route
       const userId = params['id'];
       // Récupération de l'ID de l'utilisateur à partir des paramètres de route
-      this.userService.getUserById(userId).subscribe(
+      this.userService.getUser(userId).subscribe(
         (user) => {
           // Récupération des informations de l'utilisateur
           this.cardData = {
