@@ -14,6 +14,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(), // Fournir HttpClient pour l'application entière
     provideRouter(routes, withComponentInputBinding()), // Configuration des routes
-    provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), // Fournir les animations asynchrones
+    provideAnimationsAsync(), // Fournir les animations asynchrones
   ],
 }).catch((err) => console.error(err));
